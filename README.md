@@ -74,6 +74,9 @@ The API will run at **http://localhost:8000**.
 ```bash
 cd frontend
 
+# Configure environment
+cp .env.example .env
+
 # Install Node.js dependencies
 npm install
 
@@ -142,11 +145,15 @@ This will:
 1. Build and start the **backend** container (PHP 8.3 Alpine):
    - Installs Composer and PHP extensions
    - Runs `composer install`
+   - Copies `.env.example` → `.env` and generates `APP_KEY`
    - Runs `php artisan migrate --force`
+   - Runs `php artisan test`
    - Starts the dev server on **http://localhost:8000**
 
 2. Build and start the **frontend** container (Node 20 Alpine):
+   - Copies `.env.example` → `.env`
    - Runs `npm install`
+   - Runs `npm run lint`
    - Starts the Vite dev server on **http://localhost:5173**
 
 ### Rebuild from Scratch
