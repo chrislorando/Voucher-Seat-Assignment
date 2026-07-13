@@ -43,7 +43,7 @@ voucher-seat-assignment/
 
 ```bash
 git clone https://github.com/chrislorando/Voucher-Seat-Assignment.git
-cd voucher-seat-assignment
+cd Voucher-Seat-Assignment
 ```
 
 ### 2. Backend Setup
@@ -67,7 +67,7 @@ php artisan serve
 
 The API will run at **http://localhost:8000**.
 
-> **Database note:** The default configuration uses **SQLite**. The database file is created at `backend/database/vouchers.db`.
+> **Database note:** The default configuration uses **SQLite**. Set `DB_DATABASE` in `backend/.env` to an **absolute path**, e.g. `DB_DATABASE=/absolute/path/to/backend/database/vouchers.db`.
 
 ### 3. Frontend Setup
 

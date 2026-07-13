@@ -10,7 +10,7 @@ services:
       - ./backend:/app
       - vendor_data:/app/vendor
     working_dir: /app
-    command: sh -c "set -e; apk add --no-cache unzip git libpq-dev sqlite-dev; docker-php-ext-install pdo pdo_sqlite; curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; composer install --no-interaction --prefer-dist; cp .env.example .env; php artisan key:generate; touch database/vouchers.db; sed -i 's@^# DB_DATABASE=.*@DB_DATABASE=/app/database/vouchers.db@' .env; php artisan migrate --force; php artisan test; php artisan serve --host=0.0.0.0 --port=8000"
+    command: sh -c "set -e; apk add --no-cache unzip git libpq-dev sqlite-dev; docker-php-ext-install pdo pdo_sqlite; curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; composer install --no-interaction --prefer-dist; [ ! -f .env ] && cp .env.example .env; php artisan key:generate; touch database/vouchers.db; sed -i 's@^# DB_DATABASE=.*@DB_DATABASE=/app/database/vouchers.db@' .env; php artisan migrate --force; php artisan test; php artisan serve --host=0.0.0.0 --port=8000"
 
   frontend:
     image: node:20-alpine
@@ -21,7 +21,7 @@ services:
       - ./frontend:/app
       - node_modules_data:/app/node_modules
     working_dir: /app
-    command: sh -c "set -e; cp .env.example .env; npm install; npm run lint; npm run dev -- --host"
+    command: sh -c "set -e; [ ! -f .env ] && cp .env.example .env; npm install; npm run lint; npm run dev -- --host"
 
 volumes:
   vendor_data:
