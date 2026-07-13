@@ -10,7 +10,7 @@ services:
       - ./backend:/app
       - vendor_data:/app/vendor
     working_dir: /app
-    command: sh -c "set -e; apk add --no-cache unzip git libpq-dev sqlite-dev; docker-php-ext-install pdo pdo_sqlite; curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; composer install --no-interaction --prefer-dist; touch database/vouchers.db; php artisan migrate --force; php artisan test; php artisan serve --host=0.0.0.0 --port=8000"
+    command: sh -c "set -e; apk add --no-cache unzip git libpq-dev sqlite-dev; docker-php-ext-install pdo pdo_sqlite; curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; composer install --no-interaction --prefer-dist; php artisan key:generate; touch database/vouchers.db; php artisan migrate --force; php artisan test; php artisan serve --host=0.0.0.0 --port=8000"
 
   frontend:
     image: node:20-alpine
