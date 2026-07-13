@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    image: php:8.3-cli-alpine
+    container_name: airline-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - vendor_data:/app/vendor
+    working_dir: /app
+    command: sh -c "set -e; apk add --no-cache unzip git libpq-dev sqlite-dev; docker-php-ext-install pdo pdo_sqlite; curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; composer install --no-interaction --prefer-dist; touch database/vouchers.db; php artisan migrate --force; php artisan test; php artisan serve --host=0.0.0.0 --port=8000"
+
+  frontend:
+    image: node:20-alpine
+    container_name: airline-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - node_modules_data:/app/node_modules
+    working_dir: /app
+    command: sh -c "set -e; npm install; npm run lint; npm run dev -- --host"
+
+volumes:
+  vendor_data:
+  node_modules_data:
